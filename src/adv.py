@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item, Weapon
 
 # Declare all the rooms
 
@@ -22,7 +23,6 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
-
 # Link rooms together
 
 room['outside'].n_to = room['foyer']
@@ -34,13 +34,15 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-#
-# Main
-#
 
-# Make a new player object that is currently in the 'outside' room.
+# Items:
+sword = Weapon("Sword", "A sharp looking sword. Good for fighting goblins!", 5)
+knife = Weapon("Knife", "A wicked looking knife, seems sharp!", 3)
+stick = Weapon("Stick", "You could probably hit someone with this stick if you needed to", 3)
+
+# Make a new player object.
 player = Player('Mo',room['outside'])
-room = Room()
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -55,10 +57,14 @@ import sys
 
 
 while True:
-    cmd = input(*args)
-    if cmd in {'n', 's', 'e', 'w'}:
-        Player.move(cmd)
-    elif cmd == 'q':
+    print("=====================================")
+    print(player.current_room.name)
+    print(player.current_room.description)
+    cmd = input("Where do you want to go? ")
+    print("=====================================")
+    if cmd == 'q':
         break
+    elif cmd in {'n', 's', 'e', 'w'}:
+        player.move(cmd)
     else:
         print('ERROR!! Invalid input')
